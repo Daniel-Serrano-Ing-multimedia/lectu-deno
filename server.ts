@@ -1,5 +1,5 @@
 import { Application } from "https://deno.land/x/oak/mod.ts";
-import router from "./routes.ts"; // Ialmport our router
+import router from "./routes/todos.routes.ts"; // Ialmport our router
 
 const PORT = 4000;
 const app = new Application();

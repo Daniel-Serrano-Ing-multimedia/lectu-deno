@@ -1,18 +1,16 @@
 import { config } from "https://deno.land/x/dotenv/mod.ts";
-const { DATA_API_KEY, APP_ID } = config();
+import { RequestBody,DB_Request } from '../interfaces.ts';
+import { BASE_URI, DbConfig } from '../config/db.ts';
 
-const BASE_URI = `https://data.mongodb-api.com/app/${APP_ID}/endpoint/data/beta/action`;
-const DATA_SOURCE = "Cluster0";
-const DATABASE = "Lectu";
+const { DATA_SOURCE, DATABASE } = config();
 const COLLECTION = "todos";
-const options = {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-    "api-key": DATA_API_KEY,
-    "Access-Control-Request-Headers":'*'
-  },
-  body: ""
+
+const options: DB_Request ={...DbConfig, method:'POST'};
+const query: RequestBody = {
+  dataSource: DATA_SOURCE,
+  database: DATABASE,
+  collection: COLLECTION,
+  document: undefined
 };
 
 const addTodo = async ({
@@ -22,7 +20,6 @@ const addTodo = async ({
   request: any;
   response: any;
   }) => {
-  console.log('todo');
   try {
     if (!request.hasBody) {
       response.status = 400;
@@ -34,13 +31,7 @@ const addTodo = async ({
       const body = await request.body();
       const todo = await body.value;
       const URI = `${BASE_URI}/insertOne`;
-      const query = {
-        collection: COLLECTION,
-        database: DATABASE,
-        dataSource: DATA_SOURCE,
-        document: todo
-      };
-
+      query.document = todo;
       options.body = JSON.stringify(query);
      
       const dataResponse = await fetch(URI, options);
@@ -54,7 +45,6 @@ const addTodo = async ({
       };
     }
   } catch (err) {
-    console.log({ err });
     response.body = {
       success: false,
       msg: err.toString(),
