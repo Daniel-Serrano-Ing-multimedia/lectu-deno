@@ -1,11 +1,9 @@
-import { Application } from "https://deno.land/x/oak/mod.ts";
-import router from "./routes/todos.routes.ts"; // Ialmport our router
+import { Application } from "https://deno.land/x/abc@v1.3.3/mod.ts";
 
-const PORT = 4000;
 const app = new Application();
 
-app.use(router.routes()); // Implement our router
-app.use(router.allowedMethods()); // Allow router HTTP methods
-
-console.log(`Server listening on port ${PORT}`);
-await app.listen({ port: PORT });
+app
+  .get("/hello", (c) => {
+    return "Hello, Abc!";
+  })
+  .start({ port: 4000 });
