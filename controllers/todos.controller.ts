@@ -52,4 +52,17 @@ const addTodo = async ({
   }
 };
 
-export { addTodo };
+const getTotdos  = async ({
+  request,
+  response,
+}: {
+  request: any;
+  response: any;
+  })=>{
+  response.status = 201;
+  response.body = {
+    success: true,
+  };
+}
+
+export { addTodo,getTotdos };
