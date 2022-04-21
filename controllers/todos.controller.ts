@@ -1,4 +1,5 @@
-import { config } from "https://deno.land/x/dotenv/mod.ts";
+import { Context, helpers } from "https://deno.land/x/oak/mod.ts";
+import { config } from '../config/index.ts'
 import { RequestBody,DB_Request } from '../interfaces.ts';
 import { BASE_URI, DbConfig } from '../config/db.ts';
 
@@ -13,22 +14,18 @@ const query: RequestBody = {
   document: undefined
 };
 
-const addTodo = async ({
-  request,
-  response,
-}: {
-  request: any;
-  response: any;
-  }) => {
+const addTodo = async ({request,response}:Context) => {
   try {
-    if (!request.hasBody) {
+    if (!request.body) {
       response.status = 400;
       response.body = {
         success: false,
         msg: "No Data",
       };
     } else {
+      console.log( 'todos');
       const body = await request.body();
+      console.log( 'todos', {body});
       const todo = await body.value;
       const URI = `${BASE_URI}/insertOne`;
       query.document = todo;
