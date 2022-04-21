@@ -3,7 +3,7 @@ import { config } from '../config/index.ts'
 import { RequestBody,DB_Request } from '../interfaces.ts';
 import { BASE_URI, DbConfig } from '../config/db.ts';
 
-const { DATA_SOURCE, DATABASE } = config;
+const { DATA_SOURCE, DATABASE } = config();
 const COLLECTION = "todos";
 
 const options: DB_Request ={...DbConfig, method:'POST'};
